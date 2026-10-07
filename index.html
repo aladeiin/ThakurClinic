@@ -13,6 +13,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:fle
 @media(max-width:900px){.side{width:70px;padding:12px}.brand div:not(.logo),.nav button span{display:none}.main{margin-left:70px;padding:14px}.stats,.two,.three{grid-template-columns:1fr 1fr}.form{grid-template-columns:1fr}}
 @media(max-width:600px){.stats,.two,.three{grid-template-columns:1fr}.top{align-items:stretch;flex-direction:column}.actions{flex-wrap:wrap}}
 @media print{body{background:#fff}.side,.top,.no-print{display:none!important}.main{margin:0;padding:0}.card{box-shadow:none;border:0}.print-only{display:block}}
+.loginbox{position:fixed;inset:0;background:#f5f7f8;z-index:999;display:flex;align-items:center;justify-content:center}.loginbox.hidden{display:none}.logincard{background:#fff;border-radius:16px;padding:36px 32px;width:min(360px,92vw);text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.1)}.logincard .logo{margin:0 auto 12px}.logincard h2{margin:0}.logincard p{color:#555;margin:6px 0 22px}.btn.big{padding:14px 20px;font-size:16px;width:100%}.loginmsg{color:#b91c1c;font-size:14px;min-height:18px}.sync{font-size:13px;color:#555;margin-right:8px}.sync.ok{color:#0f766e}.sync.bad{color:#b91c1c}
 </style>
 </head>
 <body>
@@ -35,14 +36,20 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:fle
 <main class="main">
   <div class="top no-print">
     <div class="search"><input id="globalSearch" placeholder="Search patient by name, mobile or UHID…"></div>
-    <div class="actions"><button class="btn" id="langBtn">मराठी</button><button class="btn primary" id="newPatientBtn">+ New Patient</button></div>
+    <div class="actions"><span id="syncStatus" class="sync"></span><button class="btn" id="logoutBtn" style="display:none">Sign out</button><button class="btn" id="langBtn">मराठी</button><button class="btn primary" id="newPatientBtn">+ New Patient</button></div>
   </div>
   <div id="page"></div>
 </main>
 </div>
+<div id="loginBox" class="loginbox"><div class="logincard"><div class="logo">TC</div><h2>Thakur Clinic</h2><p>Dr Ashwin Thakur</p><button class="btn primary big" id="googleBtn">Sign in with Google</button><p id="loginMsg" class="loginmsg"></p><small>Authorised clinic staff only</small></div></div>
 <div id="modal" class="modal hidden"><div class="modalbox" id="modalBox"></div></div>
 <div id="toast" class="toast"></div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="cloud.js"></script>
 <script>
 const KEY='thakurClinicEMR_v1';
 const clinic={
@@ -59,7 +66,7 @@ let db=JSON.parse(localStorage.getItem(KEY)||'null')||{
  ], appointments:[], payments:[], settings:{upi:'',logo:''}
 };
 let lang='en', page='dashboard', selectedPatient=null;
-function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));window.Cloud&&Cloud.changed()}
 function toast(x){let t=document.getElementById('toast');t.textContent=x;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
 function esc(x=''){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function fmt(d){return d?new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—'}
@@ -155,7 +162,8 @@ function saveSettings(){db.settings.upi=document.getElementById('upi').value.tri
 function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='thakur-clinic-backup.json';a.click();URL.revokeObjectURL(a.href)}
 function restoreData(input){let f=input.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);save();render();toast('Backup restored')}catch(e){toast('Invalid backup')}};r.readAsText(f)}
 function bind(){document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>setPage(b.dataset.page));document.getElementById('newPatientBtn').onclick=openNewPatient;document.getElementById('langBtn').onclick=()=>{lang=lang==='en'?'mr':'en';render()};document.getElementById('globalSearch').oninput=e=>{let q=e.target.value.trim().toLowerCase();if(!q)return;if(q.length>1){let p=db.patients.find(x=>[x.name,x.mobile,x.uhid].some(v=>String(v||'').toLowerCase().includes(q)));if(p)openPatient(p.id)}}}
-bind();render();
+function boot(){bind();render()}
+Cloud.init(boot);
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>

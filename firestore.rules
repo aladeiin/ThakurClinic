@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Only these Google accounts can read/write clinic data. Edit the list, then Publish in Firebase Console.
+    function allowed() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in [
+          'REPLACE_WITH_DOCTOR_GMAIL@gmail.com'
+          // , 'receptionist@gmail.com'
+        ];
+    }
+    match /clinics/{clinic}/{document=**} {
+      allow read, write: if allowed();
+    }
+  }
+}
