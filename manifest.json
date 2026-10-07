@@ -1,0 +1,9 @@
+{
+  "name":"Thakur Clinic EMR",
+  "short_name":"Thakur Clinic",
+  "start_url":"./index.html",
+  "display":"standalone",
+  "background_color":"#f5f7f8",
+  "theme_color":"#0f766e",
+  "icons":[]
+}
