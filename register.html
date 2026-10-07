@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f766e">
+<title>Thakur Clinic — Registration</title>
+<link rel="icon" href="icons/icon-192.png">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;font-size:17px;background:#f5f7f8;color:#172026}
+.wrap{max-width:520px;margin:0 auto;padding:18px 16px 40px}.head{text-align:center;margin:10px 0 18px}.head h1{margin:6px 0 0;font-size:24px}.head p{margin:2px 0;color:#475569}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 6px 20px rgba(15,23,42,.07)}
+label{display:block;font-weight:600;font-size:15px;margin-bottom:14px}input,select,textarea{width:100%;margin-top:6px;border:1px solid #c5d0d8;border-radius:12px;padding:14px;font:inherit;background:#fff;min-height:50px}textarea{min-height:80px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.chk{display:flex;gap:10px;font-weight:400;font-size:14px;align-items:flex-start}.chk input{width:24px;min-height:24px;margin:2px 0 0}
+button{width:100%;border:0;border-radius:14px;background:#0f766e;color:#fff;font:inherit;font-weight:700;font-size:18px;padding:16px;margin-top:6px}button:disabled{opacity:.6}
+.lang{display:flex;justify-content:flex-end}.lang button{width:auto;background:#fff;color:#0f766e;border:1px solid #0f766e;padding:8px 16px;font-size:15px;margin:0}
+.msg{text-align:center;padding:30px 10px}.msg .big{font-size:56px}.err{color:#b91c1c;font-size:14px;min-height:20px}.hp{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="lang"><button type="button" id="lb">मराठी</button></div>
+<div class="head"><h1>Thakur Clinic</h1><p>Dr Ashwin Thakur</p><p id="sub"></p></div>
+<div class="card" id="formCard">
+<form id="f" autocomplete="on">
+<label id="l_name"><span></span><input id="name" required maxlength="100" autocomplete="name"></label>
+<div class="two"><label><span id="l_age"></span><input id="age" type="number" min="0" max="120" inputmode="numeric"></label>
+<label><span id="l_sex"></span><select id="sex"><option value="Male"></option><option value="Female"></option><option value="Other"></option></select></label></div>
+<label><span id="l_mobile"></span><input id="mobile" type="tel" required inputmode="numeric" maxlength="10" pattern="[0-9]{10}" autocomplete="tel-national"></label>
+<label><span id="l_reason"></span><textarea id="reason" maxlength="300"></textarea></label>
+<label><span id="l_allergy"></span><input id="allergies" maxlength="200"></label>
+<label><span id="l_chronic"></span><input id="chronic" maxlength="200"></label>
+<label><span id="l_addr"></span><input id="address" maxlength="300" autocomplete="street-address"></label>
+<input class="hp" id="website" tabindex="-1" autocomplete="off">
+<label class="chk"><input type="checkbox" id="consent" required><span id="l_consent"></span></label>
+<div class="err" id="err"></div>
+<button id="go" type="submit"></button>
+</form></div>
+<div class="card msg hidden" id="doneCard" style="display:none"><div class="big">✅</div><h2 id="d_title"></h2><p id="d_text"></p></div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+const L={en:{sub:'Patient registration — please fill in your details',name:'Full name',age:'Age',sex:'Sex',Male:'Male',Female:'Female',Other:'Other',mobile:'Mobile number (10 digits)',reason:'What is the problem today?',allergy:'Any medicine allergy? (optional)',chronic:'Long-term illness e.g. diabetes, BP (optional)',addr:'Address (optional)',consent:'I agree that the clinic may store my details for treatment and may contact me on this number / WhatsApp.',go:'Submit',err:'Please check the details and try again.',cfg:'Registration is not available right now. Please tell the reception.',dt:'Thank you!',dtx:'Your details are sent. Please wait — the clinic staff will call you shortly.'},
+mr:{sub:'रुग्ण नोंदणी — कृपया तुमची माहिती भरा',name:'पूर्ण नाव',age:'वय',sex:'लिंग',Male:'पुरुष',Female:'स्त्री',Other:'इतर',mobile:'मोबाईल नंबर (१० अंकी)',reason:'आज काय त्रास आहे?',allergy:'औषधाची अ‍ॅलर्जी आहे का? (ऐच्छिक)',chronic:'दीर्घकालीन आजार उदा. मधुमेह, BP (ऐच्छिक)',addr:'पत्ता (ऐच्छिक)',consent:'उपचारासाठी क्लिनिकने माझी माहिती साठवण्यास आणि या नंबरवर / WhatsApp वर संपर्क करण्यास माझी संमती आहे.',go:'सबमिट करा',err:'कृपया माहिती तपासून पुन्हा प्रयत्न करा.',cfg:'नोंदणी सध्या उपलब्ध नाही. कृपया रिसेप्शनला सांगा.',dt:'धन्यवाद!',dtx:'तुमची माहिती पाठवली आहे. कृपया थांबा — क्लिनिक कर्मचारी लवकरच तुम्हाला बोलावतील.'}};
+let lg=(navigator.language||'').startsWith('mr')?'mr':'en';
+const $=id=>document.getElementById(id);
+function apply(){const s=L[lg];document.documentElement.lang=lg;$('sub').textContent=s.sub;
+ [['l_name','name'],['l_age','age'],['l_sex','sex'],['l_mobile','mobile'],['l_reason','reason'],['l_allergy','allergy'],['l_chronic','chronic'],['l_addr','addr']].forEach(([i,k])=>{const e=$(i);(e.firstElementChild&&e.tagName==='LABEL'?e.firstElementChild:e).textContent=s[k]});
+ [...$('sex').options].forEach(o=>o.textContent=s[o.value]);$('l_consent').textContent=s.consent;$('go').textContent=s.go;$('d_title').textContent=s.dt;$('d_text').textContent=s.dtx;$('lb').textContent=lg==='en'?'मराठी':'English'}
+$('lb').onclick=()=>{lg=lg==='en'?'mr':'en';apply()};apply();
+const cfg=window.FIREBASE_CONFIG||{};let fs=null;
+if(cfg.apiKey){firebase.initializeApp(cfg);fs=firebase.firestore()}else{$('err').textContent=L[lg].cfg;$('go').disabled=true}
+$('f').onsubmit=async e=>{
+  e.preventDefault();if(!fs||$('website').value)return;
+  const mobile=$('mobile').value.replace(/\D/g,'');
+  if(mobile.length!==10||!$('name').value.trim()||!$('consent').checked){$('err').textContent=L[lg].err;return}
+  $('go').disabled=true;$('err').textContent='';
+  try{
+    await fs.collection('clinics').doc('main').collection('registrations').add({name:$('name').value.trim(),age:String($('age').value||''),sex:$('sex').value,mobile,reason:$('reason').value.trim(),allergies:$('allergies').value.trim(),chronic:$('chronic').value.trim(),address:$('address').value.trim(),consent:true,lang:lg,created:firebase.firestore.FieldValue.serverTimestamp()});
+    $('formCard').style.display='none';$('doneCard').style.display='block';window.scrollTo(0,0);
+  }catch(x){console.error(x);$('err').textContent=L[lg].err;$('go').disabled=false}
+};
+</script>
+</body>
+</html>

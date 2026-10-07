@@ -5,166 +5,46 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>Thakur Clinic — EMR Prototype</title>
-<style>
-:root{--bg:#f5f7f8;--card:#fff;--ink:#172026;--muted:#64748b;--line:#dce3e8;--brand:#0f766e;--brand2:#115e59;--danger:#b91c1c;--warn:#a16207;--ok:#15803d;--shadow:0 8px 24px rgba(15,23,42,.06)}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh}.side{width:240px;background:#0b2f2c;color:#e6fffb;padding:20px;position:fixed;inset:0 auto 0 0}.brand{display:flex;gap:12px;align-items:center;margin-bottom:26px}.logo{width:44px;height:44px;border-radius:12px;background:#fff;color:var(--brand);display:grid;place-items:center;font-weight:800}.brand b{display:block}.brand small{opacity:.75}.nav button{width:100%;text-align:left;background:transparent;border:0;color:#d9f6f2;padding:11px 12px;border-radius:10px;margin:2px 0}.nav button.active,.nav button:hover{background:#164e4a}.main{margin-left:240px;flex:1;padding:24px;max-width:1500px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:20px}.search{flex:1;max-width:620px}.search input{width:100%;padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:#fff}.actions{display:flex;gap:8px}.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 13px}.btn.primary{background:var(--brand);color:#fff;border-color:var(--brand)}.btn.danger{color:#fff;background:var(--danger);border-color:var(--danger)}.grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}.stat .n{font-size:28px;font-weight:800;margin-top:4px}.muted{color:var(--muted)}.section-title{display:flex;justify-content:space-between;align-items:center;margin:8px 0 12px}.two{grid-template-columns:1.2fr .8fr}.three{grid-template-columns:repeat(3,1fr)}table{width:100%;border-collapse:collapse}th,td{padding:11px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}th{color:var(--muted);font-weight:600}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#eef2f3;font-size:12px}.pill.ok{background:#dcfce7;color:#166534}.pill.warn{background:#fef3c7;color:#92400e}.pill.bad{background:#fee2e2;color:#991b1b}.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.form .full{grid-column:1/-1}label{font-size:12px;font-weight:700;color:#475569;display:block;margin-bottom:5px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px;background:#fff}textarea{min-height:90px;resize:vertical}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.patient-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.alert{border-left:4px solid var(--danger);background:#fff5f5;padding:10px 12px;border-radius:8px;margin:8px 0}.okbox{border-left:4px solid var(--ok);background:#f0fdf4;padding:10px 12px;border-radius:8px}.hidden{display:none!important}.modal{position:fixed;inset:0;background:rgba(15,23,42,.48);display:grid;place-items:center;padding:20px;z-index:20}.modalbox{background:#fff;width:min(900px,100%);max-height:90vh;overflow:auto;border-radius:16px;padding:20px}.tabs{display:flex;gap:5px;flex-wrap:wrap;margin:16px 0}.tabs button{border:0;background:#eef2f3;border-radius:9px;padding:9px 12px}.tabs button.active{background:var(--brand);color:#fff}.timeline{border-left:2px solid #d7e3e1;margin-left:8px;padding-left:18px}.event{margin-bottom:18px;position:relative}.event:before{content:"";width:10px;height:10px;background:var(--brand);border-radius:50%;position:absolute;left:-24px;top:4px}.toast{position:fixed;right:20px;bottom:20px;background:#172026;color:#fff;padding:12px 15px;border-radius:10px;display:none;z-index:30}.logo-upload{border:1px dashed var(--line);padding:14px;border-radius:10px}.small{font-size:12px}.print-only{display:none}
-@media(max-width:900px){.side{width:70px;padding:12px}.brand div:not(.logo),.nav button span{display:none}.main{margin-left:70px;padding:14px}.stats,.two,.three{grid-template-columns:1fr 1fr}.form{grid-template-columns:1fr}}
-@media(max-width:600px){.stats,.two,.three{grid-template-columns:1fr}.top{align-items:stretch;flex-direction:column}.actions{flex-wrap:wrap}}
-@media print{body{background:#fff}.side,.top,.no-print{display:none!important}.main{margin:0;padding:0}.card{box-shadow:none;border:0}.print-only{display:block}}
-.loginbox{position:fixed;inset:0;background:#f5f7f8;z-index:999;display:flex;align-items:center;justify-content:center}.loginbox.hidden{display:none}.logincard{background:#fff;border-radius:16px;padding:36px 32px;width:min(360px,92vw);text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.1)}.logincard .logo{margin:0 auto 12px}.logincard h2{margin:0}.logincard p{color:#555;margin:6px 0 22px}.btn.big{padding:14px 20px;font-size:16px;width:100%}.loginmsg{color:#b91c1c;font-size:14px;min-height:18px}.sync{font-size:13px;color:#555;margin-right:8px}.sync.ok{color:#0f766e}.sync.bad{color:#b91c1c}
-</style>
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Thakur Clinic</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
-<aside class="side">
-  <div class="brand"><div class="logo" id="logoBox">TC</div><div><b>Thakur Clinic</b><small>EMR Prototype</small></div></div>
-  <div class="nav">
-    <button data-page="dashboard" class="active">🏠 <span>Dashboard</span></button>
-    <button data-page="patients">👥 <span>Patients</span></button>
-    <button data-page="appointments">📅 <span>Appointments</span></button>
-    <button data-page="visits">🩺 <span>Visits</span></button>
-    <button data-page="medicines">💊 <span>Medicines</span></button>
-    <button data-page="investigations">🧪 <span>Investigations</span></button>
-    <button data-page="payments">💰 <span>Payments</span></button>
-    <button data-page="analytics">📊 <span>Analytics</span></button>
-    <button data-page="settings">⚙️ <span>Settings</span></button>
-  </div>
-</aside>
-
-<main class="main">
-  <div class="top no-print">
-    <div class="search"><input id="globalSearch" placeholder="Search patient by name, mobile or UHID…"></div>
-    <div class="actions"><span id="syncStatus" class="sync"></span><button class="btn" id="logoutBtn" style="display:none">Sign out</button><button class="btn" id="langBtn">मराठी</button><button class="btn primary" id="newPatientBtn">+ New Patient</button></div>
-  </div>
-  <div id="page"></div>
-</main>
+  <aside class="side no-print">
+    <div class="brand"><div class="logo" id="logoBox">TC</div><div><b>Thakur Clinic</b><small>Dr Ashwin Thakur</small></div></div>
+    <nav class="nav" id="nav"></nav>
+  </aside>
+  <main class="main">
+    <div class="top no-print">
+      <div class="search"><input id="globalSearch" autocomplete="off" data-ip="search_ph"><div id="searchResults" class="results hidden"></div></div>
+      <div class="actions">
+        <span id="syncStatus" class="sync"></span>
+        <button class="btn" id="langBtn">मराठी</button>
+        <button class="btn" id="logoutBtn" style="display:none" data-i="sign_out"></button>
+        <button class="btn primary" id="newPatientBtn" data-i="new_patient_btn"></button>
+      </div>
+    </div>
+    <div id="page"></div>
+  </main>
 </div>
-<div id="loginBox" class="loginbox"><div class="logincard"><div class="logo">TC</div><h2>Thakur Clinic</h2><p>Dr Ashwin Thakur</p><button class="btn primary big" id="googleBtn">Sign in with Google</button><p id="loginMsg" class="loginmsg"></p><small>Authorised clinic staff only</small></div></div>
+
+<div id="loginBox" class="loginbox"><div class="logincard"><div class="logo">TC</div><h2>Thakur Clinic</h2><p>Dr Ashwin Thakur</p><button class="btn primary big" id="googleBtn" data-i="sign_in_google"></button><p id="loginMsg" class="loginmsg"></p><small data-i="staff_only"></small></div></div>
 <div id="modal" class="modal hidden"><div class="modalbox" id="modalBox"></div></div>
 <div id="toast" class="toast"></div>
+<datalist id="medList"></datalist>
+<datalist id="doseList"><option value="1 tablet"><option value="1 capsule"><option value="5 ml"><option value="10 ml"><option value="1 sachet"><option value="2 drops"><option value="1 application"></datalist>
+<datalist id="freqList"><option value="1-0-1"><option value="1-1-1"><option value="1-0-0"><option value="0-1-0"><option value="0-0-1"><option value="SOS"><option value="Once a week"></datalist>
+<datalist id="durList"><option value="3 days"><option value="5 days"><option value="7 days"><option value="10 days"><option value="15 days"><option value="1 month"><option value="Continue"></datalist>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="firebase-config.js"></script>
+<script src="i18n.js"></script>
 <script src="cloud.js"></script>
-<script>
-const KEY='thakurClinicEMR_v1';
-const clinic={
- name:'Thakur Clinic', doctor:'Dr Ashwin Thakur MD (AM), BAMS, PGDEMS',
- reg:'I-108768-A', address:'Opp Balaji Nagar Garden, Gadgadeshwar Mandir Road, Amravati, Maharashtra',
- phones:'9284967619 / 8378889854'
-};
-let db=JSON.parse(localStorage.getItem(KEY)||'null')||{
- patients:[], visits:[], medicines:[
-  {id:'M001',generic:'Paracetamol',brand:'',strength:'500 mg',form:'Tablet',content:'Paracetamol 500 mg'},
-  {id:'M002',generic:'Amoxicillin',brand:'',strength:'500 mg',form:'Capsule',content:'Amoxicillin 500 mg'},
-  {id:'M003',generic:'Azithromycin',brand:'',strength:'500 mg',form:'Tablet',content:'Azithromycin 500 mg'},
-  {id:'M004',generic:'Metformin',brand:'',strength:'500 mg',form:'Tablet',content:'Metformin 500 mg'}
- ], appointments:[], payments:[], settings:{upi:'',logo:''}
-};
-let lang='en', page='dashboard', selectedPatient=null;
-function save(){localStorage.setItem(KEY,JSON.stringify(db));window.Cloud&&Cloud.changed()}
-function toast(x){let t=document.getElementById('toast');t.textContent=x;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
-function esc(x=''){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function fmt(d){return d?new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—'}
-function today(){return new Date().toISOString().slice(0,10)}
-function nav(){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page))}
-function setPage(p){page=p;nav();render()}
-function patientName(id){let p=db.patients.find(x=>x.id===id);return p?p.name:'Unknown'}
-function render(){document.getElementById('page').innerHTML=views[page](); if(selectedPatient){} bind()}
-const views={
-dashboard:()=>{let td=today(), todayVisits=db.visits.filter(v=>v.date===td).length, newP=db.patients.filter(p=>p.created===td).length, follow=db.visits.filter(v=>v.followup===td).length, overdue=db.visits.filter(v=>v.followup&&v.followup<td).length;
-return `<h1>${lang==='en'?'Clinic Dashboard':'क्लिनिक डॅशबोर्ड'}</h1>
-<div class="grid stats">
-<div class="card stat"><div class="muted">Today's Visits</div><div class="n">${todayVisits}</div></div>
-<div class="card stat"><div class="muted">New Patients</div><div class="n">${newP}</div></div>
-<div class="card stat"><div class="muted">Follow-ups Today</div><div class="n">${follow}</div></div>
-<div class="card stat"><div class="muted">Overdue Follow-ups</div><div class="n">${overdue}</div></div></div>
-<div class="grid two" style="margin-top:16px">
-<div class="card"><div class="section-title"><h3>Today's Appointments</h3><button class="btn" onclick="setPage('appointments')">Calendar</button></div>${appointmentRows(td)}</div>
-<div class="card"><div class="section-title"><h3>Quick Actions</h3></div><div class="row">
-<button class="btn primary" onclick="openNewPatient()">+ New Patient</button>
-<button class="btn" onclick="openNewVisit()">+ New Visit</button>
-<button class="btn" onclick="setPage('payments')">Record Payment</button></div>
-<hr><h3>Clinic Contact</h3><div class="muted">${esc(clinic.address)}<br>${esc(clinic.phones)}</div></div></div>
-<div class="card" style="margin-top:16px"><div class="section-title"><h3>Recent Patients</h3><button class="btn" onclick="setPage('patients')">View all</button></div>${patientTable(db.patients.slice().sort((a,b)=>(b.created||'').localeCompare(a.created||'')).slice(0,8))}</div>`},
-patients:()=>`<div class="section-title"><h1>Patients</h1><button class="btn primary" onclick="openNewPatient()">+ New Patient</button></div>
-<div class="card">${patientTable(db.patients)}</div>`,
-appointments:()=>`<div class="section-title"><h1>Appointments</h1><button class="btn primary" onclick="openAppointment()">+ Appointment</button></div>
-<div class="card"><div class="row"><label>Selected date <input type="date" id="apptDate" value="${today()}" onchange="renderAppointments(this.value)"></label></div><div id="apptList">${appointmentRows(today())}</div></div>`,
-visits:()=>`<div class="section-title"><h1>Visits</h1><button class="btn primary" onclick="openNewVisit()">+ New Visit</button></div><div class="card">${visitTable(db.visits.slice().reverse())}</div>`,
-medicines:()=>`<div class="section-title"><h1>Medicine Master</h1><button class="btn primary" onclick="openMedicine()">+ Add Medicine</button></div>
-<div class="card"><p class="muted">Add generic/brand, strength, dosage form and composition. Interaction checking in this prototype is a UI placeholder and must be connected to a validated clinical interaction source before clinical use.</p>${medicineTable()}</div>`,
-investigations:()=>`<div class="section-title"><h1>Investigations</h1></div><div class="card"><p class="muted">Investigation results and uploaded reports are stored against visits/patients in the patient record. Use the Patient 360° view to upload documents.</p><button class="btn" onclick="setPage('patients')">Open Patients</button></div>`,
-payments:()=>{let total=db.payments.reduce((s,p)=>s+Number(p.amount||0),0);return `<div class="section-title"><h1>Payments</h1><button class="btn primary" onclick="openPayment()">+ Record Payment</button></div>
-<div class="grid stats"><div class="card stat"><div class="muted">Total recorded</div><div class="n">₹${total.toLocaleString('en-IN')}</div></div><div class="card stat"><div class="muted">Transactions</div><div class="n">${db.payments.length}</div></div></div>
-<div class="card" style="margin-top:16px">${paymentTable()}</div>`},
-analytics:()=>{let months={};db.visits.forEach(v=>{let m=(v.date||'').slice(0,7);months[m]=(months[m]||0)+1});return `<h1>Clinic Analytics</h1><div class="grid stats"><div class="card stat"><div class="muted">Total patients</div><div class="n">${db.patients.length}</div></div><div class="card stat"><div class="muted">Total visits</div><div class="n">${db.visits.length}</div></div><div class="card stat"><div class="muted">Medicines in master</div><div class="n">${db.medicines.length}</div></div><div class="card stat"><div class="muted">Appointments</div><div class="n">${db.appointments.length}</div></div></div><div class="card" style="margin-top:16px"><h3>Visits by month</h3>${Object.entries(months).sort().reverse().map(([m,n])=>`<div class="row" style="margin:10px 0"><b style="width:90px">${m}</b><div style="height:14px;background:#d8ebe8;border-radius:20px;flex:1"><div style="height:100%;width:${Math.min(100,n*8)}%;background:var(--brand);border-radius:20px"></div></div><span>${n}</span></div>`).join('')||'<p class="muted">No visits yet.</p>'}</div>`},
-settings:()=>`<h1>Settings</h1><div class="grid two"><div class="card"><h3>Clinic</h3><p><b>${esc(clinic.name)}</b><br>${esc(clinic.doctor)}<br>Reg. No. ${esc(clinic.reg)}<br>${esc(clinic.address)}<br>${esc(clinic.phones)}</p><label>UPI ID for payment QR<input id="upi" value="${esc(db.settings.upi||'')}" placeholder="example@upi"></label><button class="btn primary" onclick="saveSettings()">Save</button></div><div class="card"><h3>Logo</h3><div class="logo-upload"><input type="file" id="logoFile" accept="image/*"><p class="small muted">Stored locally in this prototype. Use a square clinic logo for best results.</p></div></div></div>
-<div class="card" style="margin-top:16px"><h3>Data safety</h3><p>Prototype data is stored in this browser's local storage. Export/backup is provided below. This is not yet suitable for production clinical data.</p><button class="btn" onclick="exportData()">Export backup JSON</button> <button class="btn" onclick="document.getElementById('restoreFile').click()">Restore backup</button><input id="restoreFile" type="file" accept=".json" hidden onchange="restoreData(this)"></div>`
-};
-function patientTable(arr){if(!arr.length)return '<p class="muted">No patients yet.</p>';return `<table><thead><tr><th>UHID</th><th>Patient</th><th>Age/Sex</th><th>Mobile</th><th>Last visit</th><th></th></tr></thead><tbody>${arr.map(p=>`<tr><td>${esc(p.uhid)}</td><td><b>${esc(p.name)}</b></td><td>${esc(p.age||'—')} / ${esc(p.sex||'—')}</td><td>${esc(p.mobile)}</td><td>${fmt((db.visits.filter(v=>v.patientId===p.id).sort((a,b)=>b.date.localeCompare(a.date))[0]||{}).date)}</td><td><button class="btn" onclick="openPatient('${p.id}')">Open</button></td></tr>`).join('')}</tbody></table>`}
-function visitTable(arr){if(!arr.length)return '<p class="muted">No visits yet.</p>';return `<table><thead><tr><th>Date</th><th>Patient</th><th>Diagnosis</th><th>Follow-up</th><th></th></tr></thead><tbody>${arr.map(v=>`<tr><td>${fmt(v.date)}</td><td>${esc(patientName(v.patientId))}</td><td>${esc(v.diagnosis||'—')}</td><td>${fmt(v.followup)}</td><td><button class="btn" onclick="openPatient('${v.patientId}')">Patient</button></td></tr>`).join('')}</tbody></table>`}
-function medicineTable(){return `<table><thead><tr><th>Generic</th><th>Brand</th><th>Strength</th><th>Form</th><th>Content</th></tr></thead><tbody>${db.medicines.map(m=>`<tr><td>${esc(m.generic)}</td><td>${esc(m.brand)}</td><td>${esc(m.strength)}</td><td>${esc(m.form)}</td><td>${esc(m.content)}</td></tr>`).join('')}</tbody></table>`}
-function paymentTable(){if(!db.payments.length)return '<p class="muted">No payments recorded.</p>';return `<table><thead><tr><th>Date</th><th>Patient</th><th>Amount</th><th>Mode</th><th>Status</th></tr></thead><tbody>${db.payments.slice().reverse().map(p=>`<tr><td>${fmt(p.date)}</td><td>${esc(patientName(p.patientId))}</td><td>₹${Number(p.amount).toLocaleString('en-IN')}</td><td>${esc(p.mode)}</td><td><span class="pill ok">${esc(p.status||'Paid')}</span></td></tr>`).join('')}</tbody></table>`}
-function appointmentRows(date){let a=db.appointments.filter(x=>x.date===date).sort((x,y)=>(x.time||'').localeCompare(y.time||''));if(!a.length)return '<p class="muted">No appointments.</p>';return `<table><thead><tr><th>Time</th><th>Patient</th><th>Type</th><th>Status</th></tr></thead><tbody>${a.map(x=>`<tr><td>${esc(x.time)}</td><td>${esc(patientName(x.patientId))}</td><td>${esc(x.type)}</td><td><span class="pill">${esc(x.status||'Booked')}</span></td></tr>`).join('')}</tbody></table>`}
-function openModal(html){document.getElementById('modalBox').innerHTML=html;document.getElementById('modal').classList.remove('hidden')}
-function closeModal(){document.getElementById('modal').classList.add('hidden')}
-function openNewPatient(){openModal(`<div class="section-title"><h2>New Patient</h2><button class="btn" onclick="closeModal()">✕</button></div><div class="form">
-<div><label>Full name<input id="pname"></label></div><div><label>DOB<input id="pdob" type="date"></label></div>
-<div><label>Age<input id="page" type="number"></label></div><div><label>Sex<select id="psex"><option>Male</option><option>Female</option><option>Other</option></select></label></div>
-<div><label>Mobile<input id="pmobile"></label></div><div><label>WhatsApp<input id="pwa"></label></div>
-<div class="full"><label>Address<textarea id="paddr"></textarea></div>
-<div><label>Emergency contact<input id="pem"></label></div><div><label>Allergies<input id="pall" placeholder="Drug + reaction"></label></div>
-<div><label>Chronic conditions<input id="pchronic"></label></div><div><label>Surgical history<input id="psurg"></label></div>
-<div><label>Family history<input id="pfam"></label></div><div><label>Important notes<input id="pnotes"></label></div>
-</div><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="savePatient()">Create Patient</button></div>`)}
-function savePatient(){let p={id:crypto.randomUUID(),uhid:'TC-'+String(db.patients.length+1).padStart(6,'0'),name:document.getElementById('pname').value.trim(),dob:pdob.value,age:document.getElementById('page').value,sex:psex.value,mobile:pmobile.value,whatsapp:pwa.value||pmobile.value,address:paddr.value,emergency:pem.value,allergies:pall.value,chronic:pchronic.value,surgical:psurg.value,family:pfam.value,notes:pnotes.value,created:today()};if(!p.name)return toast('Patient name is required');db.patients.push(p);save();closeModal();toast('Patient created');openPatient(p.id)}
-function openPatient(id){selectedPatient=id;let p=db.patients.find(x=>x.id===id);let vs=db.visits.filter(v=>v.patientId===id).sort((a,b)=>b.date.localeCompare(a.date));openModal(`<div class="patient-head"><div><h2>${esc(p.name)} <span class="pill">${esc(p.age)} / ${esc(p.sex)}</span></h2><div class="muted">${esc(p.uhid)} · ${esc(p.mobile)}</div></div><div class="row"><button class="btn primary" onclick="openNewVisit('${id}')">+ New Visit</button><button class="btn" onclick="closeModal()">Close</button></div></div>
-${p.allergies?`<div class="alert"><b>⚠ Allergy:</b> ${esc(p.allergies)}</div>`:''}${p.chronic?`<div class="okbox"><b>Chronic:</b> ${esc(p.chronic)}</div>`:''}
-<div class="tabs"><button class="active">Overview</button><button onclick="showPatientMeds('${id}')">Medicines</button><button onclick="showPatientDocs('${id}')">Documents</button></div>
-<div class="grid two"><div><h3>Visit Timeline</h3><div class="timeline">${vs.map(v=>`<div class="event"><b>${fmt(v.date)} — ${esc(v.diagnosis||'Visit')}</b><div class="muted">${esc(v.complaint||'')}</div><div>${esc(v.medicines?.map(m=>m.name+' '+m.dose+' '+m.frequency).join(', ')||'No medicines')}</div><button class="btn" style="margin-top:6px" onclick="printPrescription('${v.id}')">Print prescription</button></div>`).join('')||'<p class="muted">No visits yet.</p>'}</div></div>
-<div><h3>Patient information</h3><p><b>Address:</b> ${esc(p.address||'—')}<br><b>Emergency:</b> ${esc(p.emergency||'—')}<br><b>Surgical:</b> ${esc(p.surgical||'—')}<br><b>Family:</b> ${esc(p.family||'—')}</p></div></div>`)}
-function showPatientMeds(id){let meds=[];db.visits.filter(v=>v.patientId===id).forEach(v=>(v.medicines||[]).forEach(m=>meds.push({...m,date:v.date})));openModal(`<div class="section-title"><h2>Medication History — ${esc(patientName(id))}</h2><button class="btn" onclick="openPatient('${id}')">Back</button></div>${meds.length?`<table><thead><tr><th>Date</th><th>Medicine</th><th>Dose</th><th>Frequency</th><th>Duration</th><th>Status</th></tr></thead><tbody>${meds.reverse().map(m=>`<tr><td>${fmt(m.date)}</td><td>${esc(m.name)}</td><td>${esc(m.dose)}</td><td>${esc(m.frequency)}</td><td>${esc(m.duration)}</td><td>${esc(m.status||'Prescribed')}</td></tr>`).join('')}</tbody></table>`:'<p class="muted">No medication history.</p>'}`)}
-function showPatientDocs(id){openModal(`<div class="section-title"><h2>Documents — ${esc(patientName(id))}</h2><button class="btn" onclick="openPatient('${id}')">Back</button></div><label>Upload report/document<input type="file" id="docFile" accept=".pdf,image/*"></label><p class="small muted">Prototype stores document metadata locally. Production version should use encrypted object storage with access control.</p>`)}
-function openNewVisit(pid){pid=pid||selectedPatient||db.patients[0]?.id;if(!pid)return toast('Create a patient first');let p=db.patients.find(x=>x.id===pid), prev=db.visits.filter(v=>v.patientId===pid).sort((a,b)=>b.date.localeCompare(a.date))[0];openModal(`<div class="section-title"><h2>New Visit — ${esc(p.name)}</h2><button class="btn" onclick="closeModal()">✕</button></div>
-${prev?`<div class="okbox"><b>Previous visit:</b> ${fmt(prev.date)} · ${esc(prev.diagnosis||'')} · ${esc(prev.medicines?.map(m=>m.name).join(', ')||'No medicines')}</div>`:''}
-<div class="form" style="margin-top:12px"><div><label>Date<input id="vdate" type="date" value="${today()}"></label></div><div><label>Follow-up date<input id="vfollow" type="date"></label></div>
-<div class="full"><label>Chief complaint<input id="vcomplaint"></label></div>
-<div><label>BP<input id="vbp" placeholder="120/80"></label></div><div><label>Pulse<input id="vpulse" type="number"></label></div>
-<div><label>SpO₂<input id="vspo" type="number"></label></div><div><label>Temperature °C<input id="vtemp" type="number" step=".1"></label></div>
-<div><label>Respiratory rate<input id="vrr" type="number"></label></div><div><label>Weight kg<input id="vwt" type="number" step=".1"></label></div>
-<div><label>Height cm<input id="vht" type="number"></label></div><div><label>Diagnosis<input id="vdiag"></label></div>
-<div class="full"><label>Examination<textarea id="vexam"></textarea></label></div><div class="full"><label>Differential diagnosis<textarea id="vdiff"></textarea></label></div>
-<div class="full"><label>Investigations ordered/results<textarea id="vinv"></textarea></label></div><div class="full"><label>Advice<textarea id="vadvice"></textarea></label></div><div class="full"><label>Clinical notes<textarea id="vnotes"></textarea></label></div>
-</div>
-<h3>Prescription</h3><div id="rxRows"></div><button class="btn" onclick="addRxRow()">+ Add medicine</button>
-<div class="card" style="margin-top:12px;background:#fffbeb"><b>Interaction checker</b><div id="interactionBox" class="small muted">Select medicines to run the prototype check. This is not a clinically validated interaction engine.</div></div>
-<div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveVisit('${pid}')">Save Visit & Prescription</button></div>`)
-addRxRow()}
-let rxCount=0;
-function addRxRow(){rxCount++;let id=rxCount, opts=db.medicines.map(m=>`<option value="${esc(m.id)}">${esc(m.generic)} ${esc(m.strength)}</option>`).join('');document.getElementById('rxRows').insertAdjacentHTML('beforeend',`<div class="row" id="rx${id}" style="margin:8px 0"><select class="rxmed" style="flex:2" onchange="checkInteractions()"><option value="">Select medicine</option>${opts}</select><input class="rxdose" placeholder="Dose" style="flex:1"><input class="rxfreq" placeholder="Frequency" style="flex:1"><input class="rxdur" placeholder="Duration" style="flex:1"><button class="btn" onclick="document.getElementById('rx${id}').remove();checkInteractions()">✕</button></div>`)}
-function checkInteractions(){let ids=[...document.querySelectorAll('.rxmed')].map(x=>x.value).filter(Boolean);let names=ids.map(id=>db.medicines.find(m=>m.id===id)?.generic).filter(Boolean);let box=document.getElementById('interactionBox');box.innerHTML=names.length?`Selected: <b>${names.map(esc).join(', ')}</b><br><span class="pill warn">Prototype check only — connect a validated interaction knowledge source before clinical use.</span>`:'Select medicines to run the prototype check.'}
-function saveVisit(pid){let meds=[...document.querySelectorAll('#rxRows .row')].map(r=>{let s=r.querySelector('.rxmed');if(!s?.value)return null;let m=db.medicines.find(x=>x.id===s.value);return{name:m.generic+' '+m.strength,dose:r.querySelector('.rxdose').value,frequency:r.querySelector('.rxfreq').value,duration:r.querySelector('.rxdur').value,status:'Prescribed'}}).filter(Boolean);let v={id:crypto.randomUUID(),patientId:pid,date:vdate.value,followup:vfollow.value,complaint:vcomplaint.value,bp:vbp.value,pulse:vpulse.value,spo:vspo.value,temp:vtemp.value,rr:vrr.value,weight:vwt.value,height:vht.value,diagnosis:vdiag.value,exam:vexam.value,diff:vdiff.value,investigations:vinv.value,advice:vadvice.value,notes:vnotes.value,medicines:meds};db.visits.push(v);if(v.followup)db.appointments.push({id:crypto.randomUUID(),patientId:pid,date:v.followup,time:'',type:'Follow-up',status:'Booked'});save();closeModal();toast('Visit saved');openPatient(pid)}
-function openAppointment(){let opts=db.patients.map(p=>`<option value="${p.id}">${esc(p.name)} — ${esc(p.uhid)}</option>`).join('');openModal(`<div class="section-title"><h2>Appointment</h2><button class="btn" onclick="closeModal()">✕</button></div><div class="form"><div><label>Patient<select id="ap"><option value="">Select</option>${opts}</select></label></div><div><label>Date<input id="ad" type="date" value="${today()}"></label></div><div><label>Time<input id="at" type="time"></label></div><div><label>Type<select id="aty"><option>New patient</option><option>Follow-up</option><option>Procedure</option><option>Investigation</option><option>Other</option></select></label></div></div><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn primary" onclick="saveAppointment()">Save</button></div>`)}
-function saveAppointment(){if(!ap.value)return toast('Select a patient');db.appointments.push({id:crypto.randomUUID(),patientId:ap.value,date:ad.value,time:at.value,type:aty.value,status:'Booked'});save();closeModal();render()}
-function renderAppointments(date){document.getElementById('apptList').innerHTML=appointmentRows(date)}
-function openMedicine(){openModal(`<div class="section-title"><h2>Add Medicine</h2><button class="btn" onclick="closeModal()">✕</button></div><div class="form"><div><label>Generic name<input id="mg"></label></div><div><label>Brand name<input id="mb"></label></div><div><label>Strength<input id="ms"></label></div><div><label>Dosage form<input id="mf" placeholder="Tablet/Capsule/Syrup"></label></div><div class="full"><label>Medicinal content/composition<input id="mc"></label></div></div><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn primary" onclick="saveMedicine()">Add</button></div>`)}
-function saveMedicine(){if(!mg.value)return toast('Generic name required');db.medicines.push({id:crypto.randomUUID(),generic:mg.value,brand:mb.value,strength:ms.value,form:mf.value,content:mc.value});save();closeModal();render()}
-function openPayment(){let opts=db.patients.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');openModal(`<div class="section-title"><h2>Record Payment</h2><button class="btn" onclick="closeModal()">✕</button></div><div class="form"><div><label>Patient<select id="pp"><option value="">Select</option>${opts}</select></label></div><div><label>Date<input id="pd" type="date" value="${today()}"></label></div><div><label>Amount ₹<input id="pa" type="number"></label></div><div><label>Mode<select id="pm"><option>Cash</option><option>UPI</option><option>Card</option><option>Other</option></select></label></div></div><div class="row" style="margin-top:12px"><button class="btn" onclick="showUPIQR()">Show UPI QR</button><span class="small muted">Set your UPI ID in Settings first.</span></div><div id="qrBox" style="margin-top:12px"></div><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn primary" onclick="savePayment()">Save</button></div>`)}
-function savePayment(){if(!pp.value||!pa.value)return toast('Patient and amount required');db.payments.push({id:crypto.randomUUID(),patientId:pp.value,date:pd.value,amount:Number(pa.value),mode:pm.value,status:'Paid'});save();closeModal();toast('Payment recorded');render()}
-function showUPIQR(){let upi=db.settings.upi;if(!upi)return toast('Add UPI ID in Settings');let amt=pa.value||'';let uri=`upi://pay?pa=${encodeURIComponent(upi)}&pn=${encodeURIComponent(clinic.name)}${amt?'&am='+encodeURIComponent(amt):''}&cu=INR`;document.getElementById('qrBox').innerHTML=`<div class="okbox">UPI intent prepared. <a href="${esc(uri)}">Open UPI payment link</a><div class="small muted" style="margin-top:6px">QR rendering is enabled when the browser has access to the QR library; the payment intent itself is generated locally.</div></div>`}
-function printPrescription(vid){let v=db.visits.find(x=>x.id===vid),p=db.patients.find(x=>x.id===v.patientId);let w=window.open('','_blank');w.document.write(`<html><head><title>Prescription — ${esc(p.name)}</title><style>body{font-family:Arial;padding:35px}h1{margin-bottom:2px}.muted{color:#555}.line{border-bottom:1px solid #222;margin:18px 0}.rx{margin:18px 0}.footer{margin-top:80px}</style></head><body><h1>${clinic.name}</h1><b>${clinic.doctor}</b><div>Reg. No. ${clinic.reg}</div><div class="muted">${clinic.address}<br>${clinic.phones}</div><div class="line"></div><p><b>Patient:</b> ${esc(p.name)} &nbsp; <b>Age/Sex:</b> ${esc(p.age)}/${esc(p.sex)} &nbsp; <b>UHID:</b> ${esc(p.uhid)}</p><p><b>Date:</b> ${fmt(v.date)}</p><p><b>Diagnosis:</b> ${esc(v.diagnosis||'')}</p><h2>Rx</h2>${(v.medicines||[]).map((m,i)=>`<div class="rx"><b>${i+1}. ${esc(m.name)}</b><br>${esc(m.dose)} · ${esc(m.frequency)} · ${esc(m.duration)}</div>`).join('')}<p><b>Advice:</b> ${esc(v.advice||'')}</p><p><b>Follow-up:</b> ${fmt(v.followup)}</p><div class="footer">Doctor's signature<br><br>____________________________</div></body></html>`);w.document.close();setTimeout(()=>w.print(),500)}
-function saveSettings(){db.settings.upi=document.getElementById('upi').value.trim();save();toast('Settings saved')}
-function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='thakur-clinic-backup.json';a.click();URL.revokeObjectURL(a.href)}
-function restoreData(input){let f=input.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);save();render();toast('Backup restored')}catch(e){toast('Invalid backup')}};r.readAsText(f)}
-function bind(){document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>setPage(b.dataset.page));document.getElementById('newPatientBtn').onclick=openNewPatient;document.getElementById('langBtn').onclick=()=>{lang=lang==='en'?'mr':'en';render()};document.getElementById('globalSearch').oninput=e=>{let q=e.target.value.trim().toLowerCase();if(!q)return;if(q.length>1){let p=db.patients.find(x=>[x.name,x.mobile,x.uhid].some(v=>String(v||'').toLowerCase().includes(q)));if(p)openPatient(p.id)}}}
-function boot(){bind();render()}
-Cloud.init(boot);
-if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
-</script>
+<script src="app.js"></script>
 </body>
 </html>

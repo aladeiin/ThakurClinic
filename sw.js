@@ -1,5 +1,5 @@
-const CACHE='thakur-clinic-v2';
-const SHELL=['./','./index.html','./cloud.js','./firebase-config.js','./manifest.json'];
+const CACHE='thakur-clinic-v3';
+const SHELL=['./','./index.html','./app.js','./i18n.js','./cloud.js','./style.css','./firebase-config.js','./register.html','./manifest.json'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)))});
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x))))));
 // network-first for our own files (so updates arrive), cache as offline fallback; never touch Google/Firebase calls
